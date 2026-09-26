@@ -9,6 +9,8 @@ function Products() {
   const [products,setProducts] = useState(null)
   const [loader,setLoader] = useState(false)
   const [err,setErr] = useState(null)
+
+  
   useEffect(()=>{
     setLoader(true)
     setErr(null)

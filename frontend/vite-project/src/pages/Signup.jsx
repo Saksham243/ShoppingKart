@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axiosInstance from '../axiosCalls/axios';
-
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 function Signup() {
 
+  const navigate = useNavigate()
+  const{setUser} = useAuth()
   const [form , setForm] = useState({name:"" , username:"" , email:"" , password:"" })
   const [err,setErr] = useState("")
   const [loader,setLoader] = useState(false)
@@ -21,8 +24,9 @@ function Signup() {
     setLoader(true)
     try {
     
-      await axiosInstance.post('/customers/register' , form)
-      console.log('User registered')
+      const resp = await axiosInstance.post('/customers/register' , form)
+      setUser(resp.data.user)
+      navigate('/login')
 
     } catch (error) {
       console.log(error)

@@ -1,8 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom';
 import axiosInstance from '../axiosCalls/axios';
-import { useState } from 'react'; 
+import { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
 function Login() {
 
+  const{user , setUser} = useAuth()
   const [form, setForm] = useState({email: "", password: "" })
   const [err, setErr] = useState("")
   const [loader, setLoader] = useState(false)
@@ -22,7 +24,8 @@ function Login() {
     
 
     try {
-      await axiosInstance.post('/customers/login' , form)
+      const response = await axiosInstance.post('/customers/login' , form)
+      setUser(response.data.user)
       navigate('/home')
 
     } catch (error) {

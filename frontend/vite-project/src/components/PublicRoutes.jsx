@@ -5,10 +5,10 @@ import { Navigate, useNavigate } from 'react-router-dom'
 
 
 function PublicRoutes({children}) {
-    const {user,loading} = useAuth()
+    const {user,loader} = useAuth()
     const navigate = useNavigate()
 
-    if(loading){
+    if(loader){
         return <h1>Loading...</h1>
     }
 
