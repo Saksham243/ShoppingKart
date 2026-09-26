@@ -3,8 +3,7 @@ import bcrypt from 'bcrypt'
 import genToken from "../utils/genToken.js"
 
 const cookieOptions = {
-    httpOnly : true,
-    secure : true
+    httpOnly : true
 }
 
 

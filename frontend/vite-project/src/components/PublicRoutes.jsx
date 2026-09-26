@@ -13,7 +13,7 @@ function PublicRoutes({children}) {
     }
 
     if(user){
-        <Navigate to='/home' />
+        return <Navigate to='/home' />
     }
 
 

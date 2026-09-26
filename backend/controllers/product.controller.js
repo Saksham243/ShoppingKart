@@ -24,17 +24,22 @@ export const addProd = async(req,res)=>{
    
 }
 
-export const getProd = async (req,res)=>{
+export const  getProd = async (req,res)=>{
     try {
         const{search,category} = req.query
         const filter={}
         if(category){
             filter.category = category
         }
+        if(search){
+            filter.name = {
+                $regex : search,
+                $options : "i"
+            }
+        }
 
 
-
-        const products = await Product.find()
+        const products = await Product.find(filter)
     res.status(200).json({
         success:true,
         count: products.length,

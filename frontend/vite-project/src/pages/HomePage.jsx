@@ -1,10 +1,9 @@
 import React from 'react';
 import axiosInstance from '../axiosCalls/axios';
+import { useAuth } from '../context/AuthContext';
 
 function HomePage() {
-  const handleLogout = async () => {
-    await axiosInstance('/logout')
-  };
+ const {logout} = useAuth()
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -51,7 +50,7 @@ function HomePage() {
             {/* Header Logout Button */}
             <button
               type="button"
-              onClick={handleLogout}
+              onClick={logout}
               className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-gray-700 shadow-xs transition hover:border-red-200 hover:bg-red-50 hover:text-red-600 active:scale-[0.98]"
             >
               <svg

@@ -11,15 +11,15 @@ export const AuthProvider =({children})=>{
 
 
     useEffect(()=>{
+        setLoader(true)
         axiosInstance.get('/customers/mypage').then((response)=>{
-            setLoader(true)
             setUser(response.data)
         }).catch((err)=>{
             console.log(err)
         }).finally(()=>{
             setLoader(false)
         })
-    })
+    },[])
 
     const logout = async()=>{
         try {
@@ -32,7 +32,7 @@ export const AuthProvider =({children})=>{
 
 
     return (
-        <AuthContext.Provider value={{user,setUser,loader,setLoader}}>
+        <AuthContext.Provider value={{logout,user,setUser,loader,setLoader}}>
             {children}
         </AuthContext.Provider>
     )
