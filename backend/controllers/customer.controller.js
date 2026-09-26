@@ -36,7 +36,7 @@ export const registerCustomer = async(req,res)=>{
         const token = genToken(user._id)
         
         res.cookie("token" , token , cookieOptions)
-        return res.status(200).json(user)
+        return res.status(200).json({user})
 
     }
     catch(err){

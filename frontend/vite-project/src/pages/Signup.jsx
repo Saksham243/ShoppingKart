@@ -25,8 +25,7 @@ function Signup() {
     try {
     
       const resp = await axiosInstance.post('/customers/register' , form)
-      setUser(resp.data.user)
-      navigate('/login')
+      navigate('/home')
 
     } catch (error) {
       console.log(error)
