@@ -1,4 +1,5 @@
 import React, { useState, useEffect, } from "react";
+import { Link } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 import SearchBar from "../components/SearchBar";
 import axiosInstance from "../axiosCalls/axios";
@@ -39,50 +40,33 @@ function Products() {
     return <h1>Something went wrong while loading products</h1>
   }
 
-  // if(products.length===0){
-  //   return <h1>No products found</h1>
-  // }
-
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      
-      {/* Header */}
-      <header className="border-b border-gray-200 bg-white">
-        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-            ShopKart
-          </h1>
+    <div className="min-h-screen bg-canvas">
+      <header className="sticky top-0 z-10 border-b border-line bg-canvas/90 backdrop-blur-md">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5 sm:px-10">
+          <div>
+            <h1 className="font-display text-2xl text-ink">ShopKart</h1>
+            <p className="mt-0.5 text-sm text-ink-soft">Discover products you'll love.</p>
+          </div>
 
-          <p className="mt-1 text-sm text-gray-500">
-            Discover products you'll love.
-          </p>
+          <Link
+            to="/home"
+            className="rounded-md border border-line bg-surface px-3.5 py-2 text-sm font-semibold text-ink-soft transition hover:border-primary/40 hover:text-primary"
+          >
+            Home
+          </Link>
         </div>
       </header>
 
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        
-        {/* Search + Filter */}
+      <main className="mx-auto max-w-6xl px-6 py-10 sm:px-10">
         <SearchBar setSearch={setSearch} setCategory={setCategory}/>
 
-        {/* Products Heading */}
         <div className="mt-10 mb-5 flex items-center justify-between">
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900">
-              Products
-            </h2>
-
-            <p className="mt-1 text-sm text-gray-500">
-              Browse our latest products
-            </p>
-          </div>
-
-          <span className="text-sm text-gray-500">
-            {products?.length} products
-          </span>
+          <h2 className="font-display text-2xl text-ink">Products</h2>
+          <span className="text-sm text-ink-soft">{products?.length} products</span>
         </div>
 
-        {/* Product Grid */}
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {products?.length==0
           ?<h1>No products found</h1>
@@ -94,7 +78,6 @@ function Products() {
             />
           ))}
         </div>
-
       </main>
     </div>
   );

@@ -10,39 +10,28 @@ function SearchBar({setSearch,setCategory}) {
     }
   }
 
-
-
   return (
-    <div className="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm md:flex-row">
-      
-      {/* Search */}
+    <div className="flex flex-col gap-4 rounded-xl border border-line bg-surface p-5 md:flex-row">
       <div className="flex-1">
-        <label className="mb-2 block text-sm font-semibold text-gray-700">
-          Search Products
-        </label>
-
+        <label className="mb-2 block text-sm font-medium text-ink">Search products</label>
         <input
           type="text"
           placeholder="Search products..."
           name="search"
           onChange={handleChange}
-          className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+          className="w-full rounded-md border border-line px-4 py-2.5 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary-soft"
         />
       </div>
 
-      {/* Category */}
       <div className="w-full md:w-56">
-        <label className="mb-2 block text-sm font-semibold text-gray-700">
-          Category
-        </label>
-
+        <label className="mb-2 block text-sm font-medium text-ink">Category</label>
         <select
-          className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+          className="w-full rounded-md border border-line bg-surface px-4 py-2.5 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary-soft"
           defaultValue=""
           name="category"
           onChange={handleChange}
         >
-          <option value="">All Categories</option>
+          <option value="">All categories</option>
           <option value="Electronics">Electronics</option>
           <option value="Fashion">Fashion</option>
           <option value="Books">Books</option>

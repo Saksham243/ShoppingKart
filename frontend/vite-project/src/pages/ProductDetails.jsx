@@ -36,31 +36,23 @@ function ProductDetails() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-canvas">
 
-      {/* Header */}
-      <header className="border-b border-gray-200 bg-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-5 sm:px-6 lg:px-8">
-          <Link
-            to="/products"
-            className="text-sm font-semibold text-blue-600 hover:text-blue-700"
-          >
-            ← Back to Products
+      <header className="border-b border-line bg-canvas">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5 sm:px-10">
+          <Link to="/products" className="text-sm font-semibold text-primary hover:text-primary-dark">
+            ← Back to products
           </Link>
-
-          <h1 className="text-lg font-bold text-gray-900">
-            ShopKart
-          </h1>
+          <h1 className="font-display text-lg text-ink">ShopKart</h1>
         </div>
       </header>
 
-      <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <main className="mx-auto max-w-6xl px-6 py-10 sm:px-10">
 
-        <div className="overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
+        <div className="overflow-hidden rounded-2xl border border-line bg-surface">
           <div className="grid grid-cols-1 lg:grid-cols-2">
 
-            {/* Image */}
-            <div className="h-[450px] bg-gray-100 lg:h-[600px]">
+            <div className="h-[450px] bg-primary-soft lg:h-[600px]">
               <img
                 src={product?.image}
                 alt={product?.name}
@@ -68,50 +60,37 @@ function ProductDetails() {
               />
             </div>
 
-            {/* Information */}
             <div className="flex flex-col justify-center p-8 sm:p-12">
 
-              <span className="w-fit rounded-full bg-blue-50 px-3 py-1 text-sm font-semibold text-blue-700">
+              <span className="w-fit rounded-full bg-primary-soft px-3 py-1 text-sm font-semibold text-primary-dark">
                 {product?.category}
               </span>
 
-              <h2 className="mt-5 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+              <h2 className="mt-5 font-display text-3xl font-medium text-ink sm:text-4xl">
                 {product?.name}
               </h2>
 
-              <p className="mt-6 text-3xl font-bold text-gray-900">
+              <p className="mt-6 text-3xl font-semibold text-ink">
                 ₹{product?.price}
               </p>
 
-              <p className="mt-6 text-base leading-7 text-gray-600">
+              <p className="mt-6 text-base leading-7 text-ink-soft">
                 {product?.description}
               </p>
 
-              {/* Stock */}
-              <div className="mt-8 rounded-xl border border-gray-200 bg-gray-50 p-4">
-                <p className="text-sm font-semibold text-gray-700">
-                  Availability
-                </p>
-
-                <p
-                  className={`mt-1 text-sm font-semibold ${inStock
-                      ? "text-emerald-600"
-                      : "text-red-600"
-                    }`}
-                >
-                  {inStock
-                    ? `${product?.stock} units available`
-                    : "Out of stock"}
+              <div className="mt-8 rounded-xl border border-line bg-canvas p-4">
+                <p className="text-sm font-semibold text-ink">Availability</p>
+                <p className={`mt-1 text-sm font-semibold ${inStock ? "text-primary" : "text-danger"}`}>
+                  {inStock ? `${product?.stock} units available` : "Out of stock"}
                 </p>
               </div>
 
-              {/* Add to Cart */}
               <button
                 type="button"
                 disabled={!inStock}
-                className="mt-8 w-full rounded-xl bg-blue-600 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300"
+                className="mt-8 w-full rounded-md bg-primary px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-primary-dark disabled:cursor-not-allowed disabled:bg-line disabled:text-ink-soft"
               >
-                {inStock ? "Add to Cart" : "Out of Stock"}
+                {inStock ? "Add to cart" : "Out of stock"}
               </button>
 
             </div>

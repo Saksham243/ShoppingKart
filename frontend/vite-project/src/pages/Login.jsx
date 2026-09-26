@@ -34,75 +34,69 @@ function Login() {
   }
 
   return (
-    <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-12">
-      <div className="w-full max-w-md rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">
-        <div className="mb-6 text-center">
-          <h2 className="text-2xl font-bold text-gray-900">Welcome Back</h2>
-          <p className="mt-1 text-sm text-gray-500">Sign in to your shopping account</p>
-        </div>
-
-        <form className="space-y-4" >
-          <div>
-            <label htmlFor="email" className="mb-1 block text-sm font-medium text-gray-700">
-              Email Address
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              placeholder="you@example.com"
-              value={form.email}
-              onChange={handleChange}
-              className="w-full rounded-lg border border-gray-300 px-3.5 py-2.5 text-sm text-gray-900 placeholder-gray-400 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="password" className="mb-1 block text-sm font-medium text-gray-700">
-              Password
-            </label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              placeholder="••••••••"
-              value={form.password}
-              onChange={handleChange}
-              className="w-full rounded-lg border border-gray-300 px-3.5 py-2.5 text-sm text-gray-900 placeholder-gray-400 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-            />
-          </div>
-
-          {/* <div className="flex items-center justify-between text-sm">
-            <label className="flex cursor-pointer items-center gap-2 text-gray-600">
-              <input
-                type="checkbox"
-                className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-              />
-              Remember me
-            </label>
-            <a href="#" className="font-medium text-blue-600 hover:underline">
-              Forgot password?
-            </a>
-          </div> */}
-
-          <button
-            type="submit"
-            className="w-full cursor-pointer rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 active:scale-[0.99]"
-            onClick={handleSubmit}
-          >
-            Sign In
-          </button>
-        </form>
-
-        <p className="mt-6 text-center text-sm text-gray-600">
-          Don't have an account?{' '}
-          <Link
-            to="/signup"
-            className="cursor-pointer font-medium text-blue-600 hover:underline"
-          >
-            Create one
-          </Link>
+    <div className="grid min-h-screen grid-cols-1 lg:grid-cols-2">
+      {/* Left brand panel */}
+      <div className="hidden flex-col justify-between bg-primary px-12 py-14 text-white lg:flex">
+        <Link to="/" className="font-display text-2xl">ShopKart</Link>
+        <p className="font-display text-3xl font-medium leading-snug">
+          Everything you're looking for, in one stall.
         </p>
+        <span className="text-xs text-white/60">© {new Date().getFullYear()} ShopKart</span>
+      </div>
+
+      {/* Right form panel */}
+      <div className="flex items-center justify-center bg-canvas px-6 py-16">
+        <div className="w-full max-w-sm">
+          <h2 className="font-display text-3xl font-medium text-ink">Sign in</h2>
+          <p className="mt-2 text-sm text-ink-soft">Pick up right where you left off.</p>
+
+          <form className="mt-8 space-y-5">
+            <div>
+              <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-ink">
+                Email address
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="you@example.com"
+                value={form.email}
+                onChange={handleChange}
+                className="w-full rounded-md border border-line bg-surface px-3.5 py-2.5 text-sm text-ink outline-none transition focus:border-primary focus:ring-2 focus:ring-primary-soft"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="password" className="mb-1.5 block text-sm font-medium text-ink">
+                Password
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                placeholder="••••••••"
+                value={form.password}
+                onChange={handleChange}
+                className="w-full rounded-md border border-line bg-surface px-3.5 py-2.5 text-sm text-ink outline-none transition focus:border-primary focus:ring-2 focus:ring-primary-soft"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full cursor-pointer rounded-md bg-primary px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-primary-dark active:scale-[0.99]"
+              onClick={handleSubmit}
+            >
+              Sign in
+            </button>
+          </form>
+
+          <p className="mt-8 text-center text-sm text-ink-soft">
+            Don't have an account?{' '}
+            <Link to="/signup" className="cursor-pointer font-semibold text-primary hover:text-primary-dark">
+              Create one
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );
