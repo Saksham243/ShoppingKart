@@ -10,6 +10,7 @@ function Products() {
   const [products, setProducts] = useState(null)
   const [loader, setLoader] = useState(false)
   const [err, setErr] = useState(null)
+  const[wishlistIds , setWishlistIds] = useState([])
 
   useEffect(() => {
     setLoader(true)
@@ -31,6 +32,19 @@ function Products() {
     }
     fetchProdsucts()
   }, [search, category])
+
+  useEffect(()=>{
+    async function fetchWishlistIds(){
+      try {
+        const res = axiosInstance.get('/wishlist')
+        setWishlistIds((await res).data.wishlist.map((prod) => prod._id))
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    fetchWishlistIds()
+  }, [])
 
   if (loader && products === null) {
     return <h1>Loading....</h1>
@@ -64,6 +78,7 @@ function Products() {
               <ProductCard
                 key={product?._id}
                 product={product}
+                initalSaved = {wishlistIds.includes(product._id)}
               />
             ))}
         </div>

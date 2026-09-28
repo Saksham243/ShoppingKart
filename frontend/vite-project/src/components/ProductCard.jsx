@@ -1,22 +1,31 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../axiosCalls/axios";
+import { useEffect } from "react";
 
-function ProductCard({ product }) {
+function ProductCard({ product, initialSaved }) {
   const [err, setErr] = useState(null)
   const [saved, setSaved] = useState(false)
   const [saving, setSaving] = useState(false)
   const inStock = product.stock > 0;
   const navigate = useNavigate();
 
+
+  useEffect(()=>{
+    setSaved(initialSaved)
+  },[initialSaved])
+
+
   const handleWishlist = async () => {
     if (saving) return
 
     setSaving(true)
+    setErr(null)
 
     try {
-      const resp = await axiosInstance.post(`/wishlist/${product._id}`)
-      setSaved(true)
+      const resp = await axiosInstance.post(`/wishlist/${product._id}/toggle`)
+
+      setSaved(resp.data.saved)
     } catch (error) {
       setErr("Unable to save product, Please try again")
     } finally {
