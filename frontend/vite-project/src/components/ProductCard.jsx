@@ -23,7 +23,7 @@ function ProductCard({ product, initialSaved }) {
     setErr(null)
 
     try {
-      const resp = await axiosInstance.post(`/wishlist/${product._id}/toggle`)
+      const resp = await axiosInstance.patch(`/wishlist/${product._id}/toggle`)
 
       setSaved(resp.data.saved)
     } catch (error) {
