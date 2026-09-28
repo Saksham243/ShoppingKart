@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import Navbar from "../components/Navbar";
 import axiosInstance from "../axiosCalls/axios";
-
 
 function ProductDetails() {
   const [product, setProduct] = useState(null)
@@ -28,26 +28,25 @@ function ProductDetails() {
 
   }, [params.id])
 
-  if(loader){
+  if (loader) {
     return <h1>Loadingg...</h1>
   }
-  if(err){
+  if (err) {
     return <h1>Something went wrong</h1>
   }
 
   return (
     <div className="min-h-screen bg-canvas">
-
-      <header className="border-b border-line bg-canvas">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5 sm:px-10">
-          <Link to="/products" className="text-sm font-semibold text-primary hover:text-primary-dark">
-            ← Back to products
-          </Link>
-          <h1 className="font-display text-lg text-ink">ShopKart</h1>
-        </div>
-      </header>
+      <Navbar />
 
       <main className="mx-auto max-w-6xl px-6 py-10 sm:px-10">
+
+        <Link
+          to="/products"
+          className="mb-6 inline-block text-sm font-semibold text-primary hover:text-primary-dark"
+        >
+          ← Back to products
+        </Link>
 
         <div className="overflow-hidden rounded-2xl border border-line bg-surface">
           <div className="grid grid-cols-1 lg:grid-cols-2">

@@ -8,6 +8,7 @@ import ProductDetails from './pages/ProductDetails.jsx'
 import { AuthProvider } from './context/AuthContext.jsx';
 import ProtectedRoutes from './components/ProtectedRoutes.jsx';
 import PublicRoutes from './components/PublicRoutes.jsx';
+import Wishlist from './pages/Wishlist.jsx';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/home" element={<ProtectedRoutes><HomePage /></ProtectedRoutes>} />
           <Route path="/products" element={<Products />}></Route>
           <Route path="/products/:id" element={<ProductDetails />}></Route>
+          <Route path="/wishlist" element={<Wishlist />}></Route>
         </Routes>
       </BrowserRouter>
     </AuthProvider>
