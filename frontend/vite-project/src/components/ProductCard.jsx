@@ -37,7 +37,7 @@ function ProductCard({ product, initialSaved }) {
   if (saving) {
     wishlistLabel = "⏳ Saving..."
   } else if (saved) {
-    wishlistLabel = "♥ Added to Wishlist"
+    wishlistLabel = "♥ Remove from Wishlist"
   }
 
   return (

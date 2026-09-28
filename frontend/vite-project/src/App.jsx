@@ -19,9 +19,9 @@ function App() {
           <Route path="/login" element={<PublicRoutes><Login /></PublicRoutes>} />
           <Route path="/signup" element={<PublicRoutes><Signup /></PublicRoutes>} />
           <Route path="/home" element={<ProtectedRoutes><HomePage /></ProtectedRoutes>} />
-          <Route path="/products" element={<Products />}></Route>
-          <Route path="/products/:id" element={<ProductDetails />}></Route>
-          <Route path="/wishlist" element={<Wishlist />}></Route>
+          <Route path="/products" element={<ProtectedRoutes><Products /></ProtectedRoutes>}></Route>
+          <Route path="/products/:id" element={<ProtectedRoutes><ProductDetails /></ProtectedRoutes>}></Route>
+          <Route path="/wishlist" element={<ProtectedRoutes><Wishlist /></ProtectedRoutes>}></Route>
         </Routes>
       </BrowserRouter>
     </AuthProvider>
