@@ -21,14 +21,17 @@ export const addCart = async (req, res) => {
         const existingItem = user.cart.find((item) => item.product.toString() === prodId)
 
 
-        if (!existingItem) {
+        if (!existingItem && product.stock>0) {
             user.cart.push({ product: prodId, quantity: 1 })
             await user.save()
+        }
+        else if(!existingItem && product.stock===0){
+            return res.status(400).json({error:"No stock"})
         }
         else {
             const newQuantity = existingItem.quantity + 1
             if (newQuantity > product.stock) {
-                return res.status(400).json({ error: "Invalid quantity" })
+                return res.status(400).json({ error: "Quantity unavailable" })
             }
             else {
                 existingItem.quantity = newQuantity
