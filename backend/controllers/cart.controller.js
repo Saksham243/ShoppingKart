@@ -21,12 +21,12 @@ export const addCart = async (req, res) => {
         const existingItem = user.cart.find((item) => item.product.toString() === prodId)
 
 
-        if (!existingItem && product.stock>0) {
+        if (!existingItem && product.stock > 0) {
             user.cart.push({ product: prodId, quantity: 1 })
             await user.save()
         }
-        else if(!existingItem && product.stock===0){
-            return res.status(400).json({error:"No stock"})
+        else if (!existingItem && product.stock === 0) {
+            return res.status(400).json({ error: "No stock" })
         }
         else {
             const newQuantity = existingItem.quantity + 1
@@ -36,15 +36,15 @@ export const addCart = async (req, res) => {
             else {
                 existingItem.quantity = newQuantity
                 await user.save()
-            }  
+            }
         }
 
-        res.status(200).json({"success": true, "message": "Cart updated", "cart": user.cart })
+        res.status(200).json({ "success": true, "message": "Cart updated", "cart": user.cart })
 
     }
-    catch(error) {
-    res.status(500).json({error:"Internal server error"})
-}
+    catch (error) {
+        res.status(500).json({ error: "Internal server error" })
+    }
 }
 
 export const getCart = async (req, res) => {
@@ -57,5 +57,45 @@ export const getCart = async (req, res) => {
         res.status(200).json({ success: true, cart: list.cart })
     } catch (error) {
         res.status(500).json({ error: "Internal server error" })
+    }
+}
+
+export const updateQuantity = async (req, res) => {
+    try {
+        const user = req.user
+        const prodId = req.params.productId
+        const isIdValid = mongoose.Types.ObjectId.isValid(prodId)
+        if (!isIdValid) {
+            return res.status(400).json({ error: "Invalid Product Id" })
+        }
+
+        const product = await Product.findById(prodId)
+
+        if (!product) {
+            return res.status(404).json({ error: "No product found" })
+        }
+
+        const inCart = user.cart.find((item) => item.product.toString() === prodId)
+        if(!inCart){
+            return res.status(404).json({error:"Product not in cart"})
+        }
+
+        const quantity = req.body.quantity
+
+        if(typeof quantity !=="number" || quantity <1 || !Number.isInteger(quantity)){
+            return res.status(400).json({error:"Invalid quantity"})
+        }
+
+        if(quantity > product.stock){
+            return res.status(400).json({error:"Quantity not available"})
+        }
+
+        inCart.quantity = quantity
+        await user.save()
+        res.status(200).json({success:true , message :"Quantity updated"})
+
+
+    } catch (error) {
+        res.status(500).json({error:"Internal server error"})
     }
 }
