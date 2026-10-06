@@ -116,7 +116,7 @@ export const delProd = async (req, res) => {
         const list=user.cart.filter((p)=>p.product.toString() !== prodId)
         user.cart=list
         await user.save()
-         res.status(200).json({ success: true, message: "Product removed from cart" })
+         res.status(200).json({ success: true, message: "Product removed from cart", cart:list })
 
     } catch (error) {
         res.status(500).json({error:"internal server error"})
