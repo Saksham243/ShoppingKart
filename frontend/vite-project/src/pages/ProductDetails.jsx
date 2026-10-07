@@ -3,13 +3,22 @@ import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import axiosInstance from "../axiosCalls/axios";
+import { useCartContext } from "../context/CartContext";
 
 function ProductDetails() {
   const [product, setProduct] = useState(null)
   const [err, setErr] = useState(null)
   const [loader, setLoader] = useState(false)
+  const [adding, setAdding] = useState(false)
+  const [cartErr, setCartErr] = useState(null)
+  const { addToCart, cartItems } = useCartContext()
   const params = useParams()
   const inStock = product?.stock > 0;
+
+  // Is this product already in the cart, and how many?
+  const cartRow = cartItems.find((item) => item.product?._id === product?._id)
+  const inCartQty = cartRow ? cartRow.quantity : 0
+  const atLimit = inCartQty >= product?.stock
 
   useEffect(() => {
     async function getProdId() {
@@ -27,6 +36,26 @@ function ProductDetails() {
     getProdId()
 
   }, [params.id])
+
+  const handleAddToCart = async () => {
+    if (adding) return
+    setAdding(true)
+    setCartErr(null)
+    const success = await addToCart(product._id)
+    if (!success) {
+      setCartErr("Unable to add to cart, try again")
+    }
+    setAdding(false)
+  }
+
+  let cartLabel = "Add to cart"
+  if (adding) {
+    cartLabel = "Adding..."
+  } else if (atLimit) {
+    cartLabel = `Max in cart (${inCartQty})`
+  } else if (inCartQty > 0) {
+    cartLabel = `Add another (${inCartQty} in cart)`
+  }
 
   if (loader) {
     return <h1>Loadingg...</h1>
@@ -86,11 +115,16 @@ function ProductDetails() {
 
               <button
                 type="button"
-                disabled={!inStock}
+                onClick={handleAddToCart}
+                disabled={!inStock || adding || atLimit}
                 className="mt-8 w-full rounded-md bg-primary px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-primary-dark disabled:cursor-not-allowed disabled:bg-line disabled:text-ink-soft"
               >
-                {inStock ? "Add to cart" : "Out of stock"}
+                {inStock ? cartLabel : "Out of stock"}
               </button>
+
+              {cartErr && (
+                <p className="mt-2 text-xs font-medium text-danger">{cartErr}</p>
+              )}
 
             </div>
           </div>

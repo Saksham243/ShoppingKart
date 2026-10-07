@@ -11,8 +11,11 @@ function ProductCard({ product, initialSaved }) {
   const navigate = useNavigate();
   const [adding, setAdding] = useState(false)
   const [cartErr, setCartErr] = useState(null)
-  const {addToCart} = useCartContext()
+  const { addToCart, cartItems } = useCartContext()
 
+  const cartRow = cartItems.find((item) => item.product?._id === product._id)
+  const inCartQty = cartRow ? cartRow.quantity : 0
+  const atLimit = inCartQty >= product.stock
 
   useEffect(() => {
     setSaved(initialSaved)
@@ -58,6 +61,10 @@ function ProductCard({ product, initialSaved }) {
   let cartLabel = "Add to Cart"
   if (adding) {
     cartLabel = "Adding..."
+  } else if (atLimit) {
+    cartLabel = `Max in cart (${inCartQty})`
+  } else if (inCartQty > 0) {
+    cartLabel = `Add Another (${inCartQty} in cart)`
   }
 
   return (
@@ -98,14 +105,13 @@ function ProductCard({ product, initialSaved }) {
         <div className="mt-5 flex flex-col gap-2">
           <button
             onClick={handleAddToCart}
-            disabled={adding || !inStock}
-            className={`block w-full rounded-md px-4 py-2.5 text-center text-sm font-semibold text-white transition active:scale-[0.99] ${
-              !inStock
-                ? "cursor-not-allowed bg-line text-ink-soft"
-                : adding
+            disabled={adding || !inStock || atLimit}
+            className={`block w-full rounded-md px-4 py-2.5 text-center text-sm font-semibold text-white transition active:scale-[0.99] ${!inStock || atLimit
+              ? "cursor-not-allowed bg-line text-ink-soft"
+              : adding
                 ? "cursor-not-allowed bg-primary-dark opacity-80"
                 : "bg-primary hover:bg-primary-dark"
-            }`}
+              }`}
           >
             {inStock ? cartLabel : "Out of Stock"}
           </button>

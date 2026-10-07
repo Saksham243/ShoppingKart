@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useCartContext } from "../context/CartContext";
 
 const linkClass = ({ isActive }) =>
   `rounded-md px-3.5 py-2 text-sm transition ${
@@ -18,6 +19,10 @@ const mobileLinkClass = ({ isActive }) =>
 
 function Navbar() {
   const { logout } = useAuth();
+  const { cartItems } = useCartContext();
+
+  // Derived value: total units across all cart rows
+  const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <header className="sticky top-0 z-10 border-b border-line bg-canvas/90 backdrop-blur-md">
@@ -30,13 +35,19 @@ function Navbar() {
           <NavLink to="/wishlist" className={linkClass}>Wishlist</NavLink>
         </nav>
 
-        <button
-          type="button"
-          onClick={logout}
-          className="rounded-md border border-line bg-surface px-3.5 py-1.5 text-sm font-semibold text-ink-soft transition hover:border-danger/40 hover:bg-danger-soft hover:text-danger"
-        >
-          Logout
-        </button>
+        <div className="flex items-center gap-3">
+          <NavLink to="/cart" className={linkClass}>
+            🛒 {cartCount}
+          </NavLink>
+
+          <button
+            type="button"
+            onClick={logout}
+            className="rounded-md border border-line bg-surface px-3.5 py-1.5 text-sm font-semibold text-ink-soft transition hover:border-danger/40 hover:bg-danger-soft hover:text-danger"
+          >
+            Logout
+          </button>
+        </div>
       </div>
 
       <div className="flex items-center gap-1 border-t border-line px-6 py-2 md:hidden">
