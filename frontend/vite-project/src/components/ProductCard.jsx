@@ -2,19 +2,34 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../axiosCalls/axios";
 import { useEffect } from "react";
-
+import { useCartContext } from "../context/CartContext";
 function ProductCard({ product, initialSaved }) {
   const [err, setErr] = useState(null)
   const [saved, setSaved] = useState(false)
   const [saving, setSaving] = useState(false)
   const inStock = product.stock > 0;
   const navigate = useNavigate();
+  const [adding, setAdding] = useState(false)
+  const [cartErr, setCartErr] = useState(null)
+  const {addToCart} = useCartContext()
 
 
-  useEffect(()=>{
+  useEffect(() => {
     setSaved(initialSaved)
-  },[initialSaved])
+  }, [initialSaved])
 
+
+  const handleAddToCart = async () => {
+    if (adding) return
+    setAdding(true)
+    setCartErr(null)
+    const success = await addToCart(product._id)
+    if (!success) {
+      setCartErr("Unable to add to cart, try again")
+    }
+    setAdding(false)
+
+  }
 
   const handleWishlist = async () => {
     if (saving) return
@@ -40,6 +55,11 @@ function ProductCard({ product, initialSaved }) {
     wishlistLabel = "♥ Remove from Wishlist"
   }
 
+  let cartLabel = "Add to Cart"
+  if (adding) {
+    cartLabel = "Adding..."
+  }
+
   return (
     <div className="group overflow-hidden rounded-xl border border-line bg-surface transition hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-md">
 
@@ -60,9 +80,8 @@ function ProductCard({ product, initialSaved }) {
           </span>
 
           <span
-            className={`text-xs font-semibold ${
-              inStock ? "text-primary" : "text-danger"
-            }`}
+            className={`text-xs font-semibold ${inStock ? "text-primary" : "text-danger"
+              }`}
           >
             {inStock ? `${product.stock} units left` : "Out of stock"}
           </span>
@@ -78,10 +97,24 @@ function ProductCard({ product, initialSaved }) {
 
         <div className="mt-5 flex flex-col gap-2">
           <button
+            onClick={handleAddToCart}
+            disabled={adding || !inStock}
+            className={`block w-full rounded-md px-4 py-2.5 text-center text-sm font-semibold text-white transition active:scale-[0.99] ${
+              !inStock
+                ? "cursor-not-allowed bg-line text-ink-soft"
+                : adding
+                ? "cursor-not-allowed bg-primary-dark opacity-80"
+                : "bg-primary hover:bg-primary-dark"
+            }`}
+          >
+            {inStock ? cartLabel : "Out of Stock"}
+          </button>
+
+          <button
             onClick={() => {
               navigate(`/products/${product._id}`)
             }}
-            className="block w-full rounded-md bg-primary px-4 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-primary-dark active:scale-[0.99]"
+            className="block w-full rounded-md border border-line bg-surface px-4 py-2.5 text-center text-sm font-semibold text-ink-soft transition hover:border-primary/40 hover:text-primary active:scale-[0.99]"
           >
             View Details
           </button>
@@ -89,11 +122,10 @@ function ProductCard({ product, initialSaved }) {
           <button
             onClick={handleWishlist}
             disabled={saving}
-            className={`block w-full rounded-md border px-4 py-2.5 text-center text-sm font-semibold transition ${
-              saved
-                ? "border-accent/40 bg-accent/10 text-accent-dark"
-                : "border-line bg-surface text-ink-soft hover:border-primary/40 hover:text-primary"
-            } ${saving ? "cursor-not-allowed opacity-70" : ""}`}
+            className={`block w-full rounded-md border px-4 py-2.5 text-center text-sm font-semibold transition ${saved
+              ? "border-accent/40 bg-accent/10 text-accent-dark"
+              : "border-line bg-surface text-ink-soft hover:border-primary/40 hover:text-primary"
+              } ${saving ? "cursor-not-allowed opacity-70" : ""}`}
           >
             {wishlistLabel}
           </button>
@@ -102,6 +134,12 @@ function ProductCard({ product, initialSaved }) {
         {err && (
           <p className="mt-2 text-xs font-medium text-danger">
             {err}
+          </p>
+        )}
+
+        {cartErr && (
+          <p className="mt-2 text-xs font-medium text-danger">
+            {cartErr}
           </p>
         )}
       </div>
