@@ -29,8 +29,7 @@ export const CartContextProvider = ({ children }) => {
 
 
     const addToCart = async (productId) => {
-        setError(null)
-        setLoading(true)
+        
         try {
             const resp = await axiosInstance.post(`/cart/${productId}`)
             await refreshCart()
@@ -38,14 +37,10 @@ export const CartContextProvider = ({ children }) => {
         } catch (error) {
             setError("Unable to add to cart, try again")
             return false
-        } finally {
-            setLoading(false)
-        }
+        } 
     }
 
     const removeFromCart = async (productId) => {
-        setError(null)
-        setLoading(true)
 
         try {
             const resp = await axiosInstance.delete(`/cart/${productId}`)
@@ -54,15 +49,12 @@ export const CartContextProvider = ({ children }) => {
         } catch (error) {
             setError("Unable to remove item, try again")
             return false
-        } finally {
-            setLoading(false)
-        }
+        } 
 
     }
 
     const updateQuant = async(productId,quantity) =>{
-        setError(null)
-        setLoading(true)
+
 
         try {
             const resp = await axiosInstance.patch(`/cart/${productId}` , {quantity})
@@ -71,9 +63,6 @@ export const CartContextProvider = ({ children }) => {
         } catch (error) {
              setError("Unable to update quantity, try again")
              return false
-        }
-        finally {
-            setLoading(false)
         }
     }
 
