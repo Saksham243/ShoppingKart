@@ -8,35 +8,40 @@ export const CartContextProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
-    const {user} = useAuth()
+    const { user } = useAuth()
 
     useEffect(() => {
 
-    async function getCart() {
-        setLoading(true)
-        try {
-            await refreshCart()
-        } catch (error) {
-            setError("Unable to get the page")
-        } finally {
-            setLoading(false)
+        async function getCart() {
+            setLoading(true)
+            try {
+                await refreshCart()
+            } catch (error) {
+                setError("Unable to get the page")
+            } finally {
+                setLoading(false)
+            }
         }
-    }
-    if(user){
-        getCart()
-    }
-}, [user])
+        if (user) {
+            getCart()
+        }
+        else {
+            setCartItems([])
+            setLoading(false)
+            setError(null)
+        }
+    }, [user])
 
 
     const addToCart = async (productId) => {
-        
+
         try {
             const resp = await axiosInstance.post(`/cart/${productId}`)
             await refreshCart()
             return true
         } catch (error) {
             return false
-        } 
+        }
     }
 
     const removeFromCart = async (productId) => {
@@ -47,30 +52,30 @@ export const CartContextProvider = ({ children }) => {
             return true
         } catch (error) {
             return false
-        } 
+        }
 
     }
 
-    const updateQuant = async(productId,quantity) =>{
+    const updateQuant = async (productId, quantity) => {
 
 
         try {
-            const resp = await axiosInstance.patch(`/cart/${productId}` , {quantity})
+            const resp = await axiosInstance.patch(`/cart/${productId}`, { quantity })
             await refreshCart()
             return true
         } catch (error) {
-             return false
+            return false
         }
     }
 
-    const refreshCart = async()=>{
+    const refreshCart = async () => {
         const freshCart = await axiosInstance.get('/cart')
         setCartItems(freshCart.data.cart)
         setError(null)
     }
 
     return (
-        <CartContext.Provider value={{ loading, error, cartItems, updateQuant ,  addToCart , removeFromCart , refreshCart}}>
+        <CartContext.Provider value={{ loading, error, cartItems, updateQuant, addToCart, removeFromCart, refreshCart }}>
             {children}
         </CartContext.Provider>
     )
