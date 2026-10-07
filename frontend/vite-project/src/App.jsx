@@ -10,6 +10,7 @@ import ProtectedRoutes from './components/ProtectedRoutes.jsx';
 import PublicRoutes from './components/PublicRoutes.jsx';
 import Wishlist from './pages/Wishlist.jsx';
 import { CartContextProvider } from './context/CartContext.jsx';
+import Cart from './pages/Cart.jsx';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/products" element={<ProtectedRoutes><Products /></ProtectedRoutes>}></Route>
           <Route path="/products/:id" element={<ProtectedRoutes><ProductDetails /></ProtectedRoutes>}></Route>
           <Route path="/wishlist" element={<ProtectedRoutes><Wishlist /></ProtectedRoutes>}></Route>
+          <Route path="/cart" element={<ProtectedRoutes><Cart /></ProtectedRoutes>}></Route>
         </Routes>
       </BrowserRouter>
     </CartContextProvider>
