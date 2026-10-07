@@ -9,10 +9,12 @@ import { AuthProvider } from './context/AuthContext.jsx';
 import ProtectedRoutes from './components/ProtectedRoutes.jsx';
 import PublicRoutes from './components/PublicRoutes.jsx';
 import Wishlist from './pages/Wishlist.jsx';
+import { CartContextProvider } from './context/CartContext.jsx';
 
 function App() {
   return (
     <AuthProvider>
+      <CartContextProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<PublicRoutes><Landing /></PublicRoutes>} />
@@ -24,6 +26,7 @@ function App() {
           <Route path="/wishlist" element={<ProtectedRoutes><Wishlist /></ProtectedRoutes>}></Route>
         </Routes>
       </BrowserRouter>
+    </CartContextProvider>
     </AuthProvider>
   );
 }
